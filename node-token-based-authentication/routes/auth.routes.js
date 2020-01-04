@@ -22,7 +22,7 @@ router.post("/register-user",
         check('password', 'Password should be between 5 to 8 characters long')
             .not()
             .isEmpty()
-            .isLength({ min: 5, max: 8 })
+            .isLength({ min: 5, max: 32 })
     ],
     (req, res, next) => {
         const errors = validationResult(req);
@@ -36,7 +36,8 @@ router.post("/register-user",
                 const user = new userSchema({
                     name: req.body.name,
                     email: req.body.email,
-                    password: hash
+                    password: hash,
+                    usertype: req.body.usertype
                 });
                 user.save().then((response) => {
                     res.status(201).json({
